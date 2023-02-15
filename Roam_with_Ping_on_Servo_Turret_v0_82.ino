@@ -255,7 +255,7 @@ int findOpening()
     dt = 100;      // Reset for small increment turret movement
 
     cm[i] = cmDistance(); // Take Ping))) measurement
-  } while (cm[i] < 30);   // Keep checking to edge of obstacle
+  } while (cm[i] < tooCloseCm);   // Keep checking to edge of obstacle
 
   sMin = 1000; // Initialize minimum distance to impossibly large value
   for (int t = 0; t <= 10; t++)
@@ -297,7 +297,7 @@ int findOpening()
       cmMax = cm[i];
       aMax = sequence[i];
     }
-  } while ((cm[i] > 30) && (sequence[i] != 0) && (sequence[i] != 10));
+  } while ((cm[i] > tooCloseCm) && (sequence[i] != 0) && (sequence[i] != 10));
   // Keep repeating while the distance measurement > 30 cm, and the turret is not near its
   // mechanical limits.
 
