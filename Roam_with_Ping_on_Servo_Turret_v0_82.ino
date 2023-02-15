@@ -24,21 +24,21 @@ const int pingPin = 10;
 const int piezoPin = 4;
 
 const int msPerTurnDegree = 6; // For maneuvers
-const int tooCloseCm = 30;     // For distance decisions
+const int tooCloseCm = 7;     // For distance decisions
 const int bumpedCm = 6;
 int ccwLim = 1400; // For turret servo control
 int rtAngle = 900;
-const int usTocm = 29; // Ping))) conversion constant
+const int usTocm = 29; // Ping))) conversion constant //TODO Could be 33
 
 // A sequence of turret positions.
 int sequence[] = {0, 2, 4, 6, 8, 10, 9, 7, 5, 3, 1};
 
 // Declare array to store that many cm distance elements using pre-calculated
 // number of elements in array.
-const int elements = sizeof(sequence);
+const int elements = sizeof(sequence) / sizeof(int);
 int cm[elements];
 
-// Pre-calculate degrees per adjustment of turret servo.
+// Pre-calculate degrees per adjustment of turret servo.- 18 degrees
 const int degreesTurret = 180 / (sizeof(sequence) / sizeof(int) - 1);
 
 int i = -1;                 // Global index
@@ -154,7 +154,8 @@ int cmDistance()
     int us = ping(pingPin);         // Get Ping))) microsecond measurement
     distance = convert(us, usTocm); // Convert to cm measurement
     delay(3);                       // Pause before retry (if needed)
-  } while (distance == 0);
+
+  } while (distance == 0); //TODO Check for a reasonable value
   return distance; // Return distance measurement
 }
 
@@ -166,6 +167,7 @@ int cmDistance()
  */
 int convert(int us, int scalar)
 {
+  //TODO Could have resolution loss
   return us / scalar / 2; // Echo round trip time -> cm
 }
 
@@ -307,7 +309,7 @@ int findOpening()
   int theta = sequence[i] * degreesTurret;
   turret(theta);
 
-  if (sMin < 7) // Turn further if too close
+  if (sMin < tooCloseCm) // Turn further if too close
   {
     if (A < aMax)
       return aMax;
