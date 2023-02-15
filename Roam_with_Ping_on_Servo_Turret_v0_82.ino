@@ -24,7 +24,7 @@ const int pingPin = 10;
 const int piezoPin = 4;
 
 const int msPerTurnDegree = 6; // For maneuvers
-const int tooCloseCm = 7;     // For distance decisions
+const int tooCloseCm = 7;      // For distance decisions
 const int bumpedCm = 6;
 int ccwLim = 1400; // For turret servo control
 int rtAngle = 900;
@@ -154,9 +154,8 @@ int cmDistance()
     int us = ping(pingPin);         // Get Ping))) microsecond measurement
     distance = convert(us, usTocm); // Convert to cm measurement
     delay(3);                       // Pause before retry (if needed)
-
-  } while (distance == 0); //TODO Check for a reasonable value
-  return distance; // Return distance measurement
+  } while (distance == 0);          // TODO Check for a reasonable value
+  return distance;                  // Return distance measurement
 }
 
 /*
@@ -167,7 +166,7 @@ int cmDistance()
  */
 int convert(int us, int scalar)
 {
-  //TODO Could have resolution loss
+  // TODO Could have resolution loss
   return us / scalar / 2; // Echo round trip time -> cm
 }
 
@@ -254,8 +253,8 @@ int findOpening()
     delay(dt);     // Wait for it to get there
     dt = 100;      // Reset for small increment turret movement
 
-    cm[i] = cmDistance(); // Take Ping))) measurement
-  } while (cm[i] < tooCloseCm);   // Keep checking to edge of obstacle
+    cm[i] = cmDistance();       // Take Ping))) measurement
+  } while (cm[i] < tooCloseCm); // Keep checking to edge of obstacle
 
   sMin = 1000; // Initialize minimum distance to impossibly large value
   for (int t = 0; t <= 10; t++)
