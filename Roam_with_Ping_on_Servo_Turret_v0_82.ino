@@ -229,7 +229,7 @@ int findOpening()
     if (repcnt > ((sizeof(sequence) / sizeof(int))) * 2) // If no opening after two scans
     {
       maneuver(-200, -200, 100); // Back up, turn, and stop to try again
-      maneuver(-200, 200, 90 * 6);
+      maneuver(-200, 200, 90 * msPerTurnDegree);
       maneuver(0, 0, 1);
     }
     k += inc;    // Increment/decrement k
@@ -263,7 +263,7 @@ int findOpening()
     if (sMin > cm[t])
       sMin = cm[t]; // Use sMin to track smallest distance
   }
-  if (sMin < 6) // If less than 6 cm, back up a little
+  if (sMin < bumpedCm) // If less than 6 cm, back up a little
   {
     maneuver(-200, -200, 350);
     k = -1; // Get turret ready to start over
