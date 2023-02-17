@@ -226,8 +226,15 @@ int findOpening()
     repcnt++;                                            // Increment repetition count
     if (repcnt > ((sizeof(sequence) / sizeof(int))) * 2) // If no opening after two scans
     {
-      maneuver(-200, -200, 100); // Back up, turn, and stop to try again
+      maneuver(-200, -200, 100);                          // Back up, turn, and stop to try again
+      if (i > 6)
+      {
       maneuver(-200, 200, 90 * 6);
+      }
+      else if (i < 6)
+      {
+        maneuver(200, -200, 90*6);
+      }
       maneuver(0, 0, 1);
     }
     k += inc;    // Increment/decrement k
