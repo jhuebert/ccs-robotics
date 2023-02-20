@@ -23,6 +23,7 @@ const int servoTurretPin = 11;
 const int pingPin = 10;
 const int piezoPin = 4;
 
+const int movementSpeed = 50;
 const int msPerTurnDegree = 6; // For maneuvers
 const int tooCloseCm = 7;      // For distance decisions
 const int bumpedCm = 6;
@@ -61,7 +62,7 @@ void setup() // Built-in initialization block
 
 void loop() // Main loop auto-repeats
 {
-  maneuver(200, 200); // Go full speed forward UFN
+  maneuver(movementSpeed, movementSpeed); // Go full speed forward UFN
   i++;                // Increment turret index
 
   // Advance turret servo to next position in sequence and wait for it to get there.
@@ -84,13 +85,13 @@ void loop() // Main loop auto-repeats
 
     if (turnAngleTime < 0) // If negative turning angle,
     {
-      maneuver(-200, 200, -turnAngleTime); // then rotate CCW for turningAngleTime ms
+      maneuver(-movementSpeed, movementSpeed, -turnAngleTime); // then rotate CCW for turningAngleTime ms
     }
     else // If positive turning angle,
     {
-      maneuver(200, -200, turnAngleTime); // then rotate CW for turningAngleTime ms
+      maneuver(movementSpeed, -movementSpeed, turnAngleTime); // then rotate CW for turningAngleTime ms
     }
-    maneuver(200, 200); // Start going forward again
+    maneuver(movementSpeed, movementSpeed); // Start going forward again
   }
 
   if (i == 10) // If turret at max, go back to zero
@@ -227,14 +228,14 @@ int findOpening()
     repcnt++;                                            // Increment repetition count
     if (repcnt > ((sizeof(sequence) / sizeof(int))) * 2) // If no opening after two scans
     {
-      maneuver(-200, -200, 100); // Back up, turn, and stop to try again
+      maneuver(-movementSpeed, -movementSpeed, 100); // Back up, turn, and stop to try again
       if (i > 6)
       {
-        maneuver(-200, 200, 90 * msPerTurnDegree);
+        maneuver(-movementSpeed, movementSpeed, 90 * msPerTurnDegree);
       }
       else if (i < 6)
       {
-        maneuver(200, -200, 90 * msPerTurnDegree);
+        maneuver(movementSpeed, -movementSpeed, 90 * msPerTurnDegree);
       }
       maneuver(0, 0, 1);
     }
@@ -271,7 +272,7 @@ int findOpening()
   }
   if (sMin < bumpedCm) // If less than 6 cm, back up a little
   {
-    maneuver(-200, -200, 350);
+    maneuver(-movementSpeed, -movementSpeed, 350);
     k = -1; // Get turret ready to start over
   }
   maneuver(0, 0); // Stay still indefinitely
