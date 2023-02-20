@@ -228,7 +228,14 @@ int findOpening()
     if (repcnt > ((sizeof(sequence) / sizeof(int))) * 2) // If no opening after two scans
     {
       maneuver(-200, -200, 100); // Back up, turn, and stop to try again
-      maneuver(-200, 200, 90 * msPerTurnDegree);
+      if (i > 6)
+      {
+        maneuver(-200, 200, 90 * msPerTurnDegree);
+      }
+      else if (i < 6)
+      {
+        maneuver(200, -200, 90 * msPerTurnDegree);
+      }
       maneuver(0, 0, 1);
     }
     k += inc;    // Increment/decrement k
