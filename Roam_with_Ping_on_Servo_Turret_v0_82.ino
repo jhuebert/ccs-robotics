@@ -24,6 +24,8 @@ const int pingPin = 10;
 const int piezoPin = 4;
 
 const int movementSpeed = 50;
+const int adjustmentFactorLeft = -5;
+const int adjustmentFactorRight = 0;
 const int msPerTurnDegree = 6; // For maneuvers
 const int tooCloseCm = 7;      // For distance decisions
 const int bumpedCm = 6;
@@ -124,8 +126,8 @@ void maneuver(int speedLeft, int speedRight)
  */
 void maneuver(int speedLeft, int speedRight, int msTime)
 {
-  servoLeft.writeMicroseconds(1500 + speedLeft);   // Set Left servo speed
-  servoRight.writeMicroseconds(1500 - speedRight); // Set right servo speed
+  servoLeft.writeMicroseconds(1500 + speedLeft + adjustmentFactorLeft);   // Set Left servo speed
+  servoRight.writeMicroseconds(1500 - speedRight + adjustmentFactorRight); // Set right servo speed
   if (msTime == -1)                                // if msTime = -1
   {
     servoLeft.detach(); // Stop servo signals
